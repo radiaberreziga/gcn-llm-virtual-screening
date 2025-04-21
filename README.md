@@ -32,7 +32,7 @@ Drug discovery is often hindered by the trade-off between computational efficien
 
 ## 🏗️ Project Structure
 
-'''.
+```.
 ├── main.py             # Entry point for training/testing
 ├── data/
 │   ├── raw/            # Raw .sdf or .csv datasets
@@ -46,8 +46,7 @@ Drug discovery is often hindered by the trade-off between computational efficien
 ├── notebooks/          # Optional Jupyter/Colab analysis
 ├── requirements.txt
 └── README.md
-
-'''
+```
 
 
 ---
@@ -70,7 +69,7 @@ python main.py --config configs/hybrid_model.yaml
 # Step 5: Evaluate the model
 python main.py --mode test --checkpoint path/to/model.ckpt
 
-
+```
 ---
 
 ## 📊 Results
