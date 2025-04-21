@@ -8,7 +8,7 @@ from src.preprocessing.preprocess import get_data
 from src.config import load_model_params
 from src.models.gcn_llm_model import GCN_LLM
 from src.models.gcn_model import GCN
-
+from src.train_utils import test, train
 from src.preprocessing.prepare_data import prepare_dataloaders
 
 
@@ -32,12 +32,28 @@ optimizer = torch.optim.Adam(model.parameters(), lr= model_params['learning_rate
 criterion = torch.nn.CrossEntropyLoss()
 
 #model GCN
-model = GCN(num_node_features=train_dataset[0].x.shape[1],num_classes=model_params['num_classe']
-            ,hidden_channels=model_params['hidden_channels']).to(device)
-optimizer = torch.optim.Adam(model.parameters(), lr= model_params['learning_rate'])
-criterion = torch.nn.CrossEntropyLoss()
+#model = GCN(num_node_features=train_dataset[0].x.shape[1],num_classes=model_params['num_classe']
+#            ,hidden_channels=model_params['hidden_channels']).to(device)
+#optimizer = torch.optim.Adam(model.parameters(), lr= model_params['learning_rate'])
+#criterion = torch.nn.CrossEntropyLoss()
+
+acc_GCN=[]
+fscore_GCN= []
+all_labels_roc_GCN = []  # Collect true labels for ROC curve
+all_probs_roc_GCN = []
+
+for epoch in range(1,600):
+    train(train_dataset,model,device)
+    train_acc,_,_,_ = test(train_dataset,model,device)
+    test_acc,f1_test, test_labels, test_probs  = test(test_dataset,model,device)
+    acc_GCN.append(test_acc)
+    fscore_GCN.append(f1_test)
+    all_labels_roc_GCN.extend(test_labels)
+    all_probs_roc_GCN.extend(test_probs)
+
+    print(f'Epoch: {epoch:03d}, Train Acc: {train_acc:.3f}, Test Acc: {test_acc:.3f}, Test F1: {f1_test:.3f}')
 
 
 
 
-print(len(train_dataset))
+

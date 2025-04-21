@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from sklearn.metrics import f1_score 
 
-def train():
+def train(train_loader,model,device):
     model.train()
     all_embeddings = []  # Store embeddings for visualization
 
@@ -16,7 +16,7 @@ def train():
          optimizer.zero_grad()  # Clear gradients.
 
 
-def test(loader):
+def test(loader,model,device):
      model.eval()
 
      correct = 0
