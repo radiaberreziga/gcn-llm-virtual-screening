@@ -73,18 +73,16 @@ python main.py --mode test --checkpoint path/to/model.ckpt
 ---
 
 ## 📊 Results
-```
-bash
-Model | F1-Score
-SVM | 85.4%
-XGBoost | 85.5%
-GCN | 87.9%
-GCN + LLM | 88.8%
 
-```
+| Model       | F1-Score |
+|-------------|----------|
+| SVM         | 85.4%    |
+| XGBoost     | 85.5%    |
+| GCN         | 87.9%    |
+| GCN + LLM   | **88.8%** |
+
 
 ---
-
 
 ##📚 Citation
 
@@ -124,4 +122,4 @@ For questions, feedback, or collaboration proposals:
 
 📧 rberreziga@usthb.dz
 🔗 LinkedIn
-📂 Institution/Lab (if applicable)
+📂 Institution/Lab
