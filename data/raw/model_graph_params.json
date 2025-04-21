@@ -1,0 +1,1 @@
+{"path_dataset": "/content/drive/MyDrive/drug_sdf/dataset_erbB1/erB1-prepared.sd", "path_mol_train": "/content/drive/MyDrive/drug_sdf/dataset_erbB1/erbB1_train.csv", "path_mol_test": "/content/drive/MyDrive/drug_sdf/dataset_erbB1/erbB1_test.csv", "batch_size": 32, "dropout_prob": 0.5, "hidden_channels": 64, "num_classe": 2, "learning_rate": 0.001, "num_epoch": 200}

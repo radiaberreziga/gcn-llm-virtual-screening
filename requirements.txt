@@ -1,8 +1,3 @@
-rdkit
-networkx
-pandas
-torch
-torch_geometric
-scikit-learn
-numpy
-matplotlib 
+version https://git-lfs.github.com/spec/v1
+oid sha256:b3b2dc1d9564f88f4de450f6325f22c3e934df9552c39fa09db184745433b254
+size 83

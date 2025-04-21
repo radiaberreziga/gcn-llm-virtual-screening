@@ -1,14 +1,26 @@
+from rdkit import Chem
+import torch
+from rdkit.Chem import rdmolops
+import numpy as np
+
+from src.preprocessing.encoding import encode_molecule_as_matrix, extract_targets,extract_atom_all_features, fit_categorical_encoders
 
 
-x= [encode_molecule_as_matrix(mol) for mol in supplier]
-Target =extract_targets(supplier)
-edge_indices=[torch.tensor(rdmolops.GetAdjacencyMatrix(mol).nonzero()) for mol in supplier]#Chem.GetAdjacencyMatrix(mol)
+def get_data(supplier,sup_name):
 
-import pickle
+    atom_features = extract_atom_all_features(supplier)
+    categorical_encoders = fit_categorical_encoders(atom_features)
 
-with open('/content/drive/MyDrive/drug_sdf/data_encoded/'+sup_name+'/edge_index.pkl', 'wb') as f:
-    pickle.dump(edge_indices, f)
-with open('/content/drive/MyDrive/drug_sdf/data_encoded/'+sup_name+'/x.pkl', 'wb') as f:
-    pickle.dump(x, f)
-with open('/content/drive/MyDrive/drug_sdf/data_encoded/'+sup_name+'/Target.pkl', 'wb') as f:
-    pickle.dump(Target, f)
+    x = [
+         encode_molecule_as_matrix(mol, categorical_encoders, atom_features)
+         for mol in supplier
+    ]
+    target = extract_targets(supplier)
+    edge_indices = [
+        torch.tensor(rdmolops.GetAdjacencyMatrix(mol).nonzero(), dtype=torch.long)
+        for mol in supplier
+    ]
+    smile_encoded = np.load('././data/raw/smile_dic/'+sup_name+'/smile_encode.npy',allow_pickle=True)
+
+    
+    return x, target, edge_indices, smile_encoded
