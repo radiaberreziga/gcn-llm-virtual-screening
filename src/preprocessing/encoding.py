@@ -1,6 +1,7 @@
 from sklearn.preprocessing import OneHotEncoder
 from src.config import load_model_params
 import numpy as np
+import torch
 
 
 
@@ -112,6 +113,6 @@ def extract_targets(supplier, activity_property='Activity_Status', active_value=
         status = mol.GetProp(activity_property)
         targets.append(1 if status == active_value else 0)
 
-    return targets
+    return torch.tensor(targets, dtype=torch.long)
 
  

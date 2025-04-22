@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from sklearn.metrics import f1_score 
 
-def train(train_loader,model,device):
+def train(train_loader,model,device, criterion, optimizer):
     model.train()
     all_embeddings = []  # Store embeddings for visualization
 

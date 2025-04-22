@@ -35,15 +35,19 @@ class GCN_LLM(torch.nn.Module):
         # 1. Obtain node embeddings
         if not isinstance(smile_llm, torch.Tensor):
             smile_llm = torch.tensor(smile_llm, dtype=torch.float32)
-        smile_llm = smile_llm.to(device) # Move graph_features to GPU before applying operations
 
         # Project SMILES vector to reduced dimensionality
         smile_llm = self.smiles_proj(smile_llm).relu()
-        smile_llm = F.dropout(smile_llm, p=0.3, training=self.training).squeeze(1)
-
+        smile_llm = F.dropout(smile_llm, p=0.3, training=self.training)
 
         # Repeat SMILES vector for each node in batch
         smile_llm_repeated = smile_llm[batch_indice]
+
+        print("x.shape:", x.shape)
+        print("smile_llm.shape:", smile_llm.shape)
+        print(batch_indice)
+
+        print("smile_llm_repeated.shape:111kk", smile_llm_repeated.shape)
 
         # Concatenate with node features
         x = torch.cat([x, smile_llm_repeated], dim=1)

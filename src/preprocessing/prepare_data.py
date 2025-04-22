@@ -43,4 +43,4 @@ def prepare_dataloaders(supplier,sup_name):
     train_loader = DataLoader(train_dataset, batch_size=model_params['batch_size'], shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=model_params['batch_size'], shuffle=False)
 
-    return train_loader.dataset, test_loader.dataset
+    return train_loader, test_loader
