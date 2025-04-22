@@ -24,9 +24,10 @@ Drug discovery is often hindered by the trade-off between computational efficien
 ## 🚀 Key Contributions
 
 - ✅ A novel hybrid GCN + LLM architecture for virtual screening.
-- ⚡ Precomputed LLM embeddings to enhance efficiency.
+- ⚡  Precomputed LLM embeddings to enhance efficiency (SMILES encoding already done in advance in the `src/encoding/compute_embeddings.py` file to avoid resource-intensive computations).
 - 🔗 Fusion strategy: concatenating LLM embeddings at each GCN layer.
-- 📊 Benchmarked on **[Name of Dataset(s)]** with superior performance over traditional ML baselines.
+- 📊 Benchmarked on **erbB1, Cannabinoid CB1 receptor, Adenosine A2A receptor, Mitogen-Activated Protein Kinase ERK2, Carbonic Anhydrase II, Beta-secretase** datasets, retrieved from the ChEMBL database, with superior performance over traditional ML baselines.
+
 
 ---
 
