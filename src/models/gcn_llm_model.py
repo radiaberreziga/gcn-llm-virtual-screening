@@ -8,17 +8,17 @@ import torch.nn as nn
 import pandas as pd
 
 class GCN_LLM(torch.nn.Module):
-    def __init__(self,num_node_features,num_classes, hidden_channels,smile_llm_dim):
+    def __init__(self,num_node_features,num_classes, hidden_channels,smile_llm_dim,smile_proj_dim =10):
         super(GCN_LLM, self).__init__()
         torch.manual_seed(12345)
-        self.smiles_proj = nn.Linear(smile_llm_dim, 10)
+        self.smiles_proj = nn.Linear(smile_llm_dim, smile_proj_dim)
 
-        self.conv1 = GCNConv(num_node_features + 10, hidden_channels)
-        self.conv2 = GCNConv(hidden_channels +10 , hidden_channels)
-        self.conv3 = GCNConv(hidden_channels +10, hidden_channels)
-        self.conv4 = GCNConv(hidden_channels +10, hidden_channels)
-        self.conv5 = GCNConv(hidden_channels +10, hidden_channels)
-        self.conv6 = GCNConv(hidden_channels +10, hidden_channels)
+        self.conv1 = GCNConv(num_node_features + smile_proj_dim, hidden_channels)
+        self.conv2 = GCNConv(hidden_channels +smile_proj_dim , hidden_channels)
+        self.conv3 = GCNConv(hidden_channels +smile_proj_dim, hidden_channels)
+        self.conv4 = GCNConv(hidden_channels +smile_proj_dim, hidden_channels)
+        self.conv5 = GCNConv(hidden_channels +smile_proj_dim, hidden_channels)
+        self.conv6 = GCNConv(hidden_channels +smile_proj_dim, hidden_channels)
 
         self.lin1 = nn.Linear(hidden_channels , hidden_channels)  # Update input size
         self.lin2 = nn.Linear(hidden_channels, num_classes)
@@ -38,16 +38,11 @@ class GCN_LLM(torch.nn.Module):
 
         # Project SMILES vector to reduced dimensionality
         smile_llm = self.smiles_proj(smile_llm).relu()
-        smile_llm = F.dropout(smile_llm, p=0.3, training=self.training)
+        smile_llm = F.dropout(smile_llm, p=0.3, training=self.training).squeeze(1)
+
 
         # Repeat SMILES vector for each node in batch
         smile_llm_repeated = smile_llm[batch_indice]
-
-        print("x.shape:", x.shape)
-        print("smile_llm.shape:", smile_llm.shape)
-        print(batch_indice)
-
-        print("smile_llm_repeated.shape:111kk", smile_llm_repeated.shape)
 
         # Concatenate with node features
         x = torch.cat([x, smile_llm_repeated], dim=1)

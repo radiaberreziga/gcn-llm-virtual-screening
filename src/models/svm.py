@@ -2,22 +2,25 @@ import torch
 import pandas as pd
 import numpy as np
 from sklearn.svm import SVC
+from pathlib import Path
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 import pickle
+from src.preprocessing.encoding import extract_targets
+from rdkit import Chem
 
-# === Paths ===
-TARGET_PATH = "your/path/to/Target.pkl"
-COLUMN_FILE = "your/path/to/Beta_secretase_descriptors.txt"
-DESCRIPTOR_FILE = "your/path/to/Beta_secretase.txt"
+SUP_NAME = "Beta-secretase-7"  # à adapter selon ton dossier
+BASE_PATH = Path("././data/raw/")
+COLUMN_FILE = BASE_PATH / "7th_Step_DS_Ligand-Prep_Files/descriptor/Beta_secretase_descriptors.txt"
+DESCRIPTOR_FILE = BASE_PATH / "7th_Step_DS_Ligand-Prep_Files/descriptor/Beta_secretase.txt"
 
-# === Data Loading Functions ===
-def load_target(path):
-    with open(path, 'rb') as f:
-        target = pickle.load(f)
+# ==== CHARGEMENT DES DONNÉES ====
+def load_target(sup_name):
+    supplier = Chem.SDMolSupplier('data/raw/7th_Step_DS_Ligand-Prep_Files/' + sup_name + '.sd')
+    target = extract_targets(supplier)
     return target
-
+        
 def load_descriptors(column_file, descriptor_file):
     with open(column_file, 'r') as f:
         columns = [line.strip() for line in f.readlines()]
@@ -61,7 +64,7 @@ def train_and_evaluate(X, y):
 # === Function to call from main ===
 def run_svm():
     print("Loading data...")
-    target = load_target(TARGET_PATH)
+    target = load_target(SUP_NAME)
     df = load_descriptors(COLUMN_FILE, DESCRIPTOR_FILE)
 
     print("Preprocessing descriptors...")

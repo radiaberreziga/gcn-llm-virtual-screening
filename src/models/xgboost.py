@@ -6,18 +6,21 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, f1_score
+from src.preprocessing.encoding import extract_targets
+from rdkit import Chem
 
 # ==== CONFIGURATION ====
-SUP_NAME = "Beta_secretase"  # à adapter selon ton dossier
-BASE_PATH = Path("/content/drive/MyDrive")
-TARGET_PATH = BASE_PATH / f"drug_sdf/data_encoded/{SUP_NAME}/Target.pkl"
+SUP_NAME = "Beta-secretase-7"  # à adapter selon ton dossier
+BASE_PATH = Path("././data/raw/")
 COLUMN_FILE = BASE_PATH / "7th_Step_DS_Ligand-Prep_Files/descriptor/Beta_secretase_descriptors.txt"
 DESCRIPTOR_FILE = BASE_PATH / "7th_Step_DS_Ligand-Prep_Files/descriptor/Beta_secretase.txt"
 
 # ==== CHARGEMENT DES DONNÉES ====
-def load_target(path):
-    with open(path, 'rb') as f:
-        return pickle.load(f)
+def load_target(sup_name):
+    supplier = Chem.SDMolSupplier('data/raw/7th_Step_DS_Ligand-Prep_Files/' + sup_name + '.sd')
+    target = extract_targets(supplier)
+    return target
+        
 
 def load_descriptors(column_file, descriptor_file):
     with open(column_file, 'r') as file:
@@ -78,7 +81,8 @@ def train_and_evaluate(X, y):
 
 def run_xgboost():
     print("Chargement des données...")
-    target = load_target(TARGET_PATH)
+    target = load_target(SUP_NAME)
+
     df = load_descriptors(COLUMN_FILE, DESCRIPTOR_FILE)
 
     print("Prétraitement des données...")
