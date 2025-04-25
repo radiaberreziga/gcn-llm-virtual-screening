@@ -10,7 +10,7 @@ def train(train_loader,model,device, criterion, optimizer):
 
          data = data.to(device)  # Move data to GPU
          out  = model(data.x.float(), data.edge_index, data.batch, data.smile_mol)  # Perform a single forward pass. for GCN-LLM
-        # out  = model(data.x.float(), data.edge_index, data.batch)  # Perform a single forward pass. for GCN
+         #out  = model(data.x.float(), data.edge_index, data.batch)  # Perform a single forward pass. for GCN
 
          loss = criterion(out, data.y)  # Compute the loss.
          loss.backward()  # Derive gradients.
@@ -30,7 +30,7 @@ def test(loader,model,device):
 
          data = data.to(device)  # Move data to GPU
          out  = model(data.x.float(), data.edge_index, data.batch, data.smile_mol)  # Perform a single forward pass. for GCN-LLM
-        # out  = model(data.x.float(), data.edge_index, data.batch)  # Perform a single forward pass. for GCN
+         #out  = model(data.x.float(), data.edge_index, data.batch)  # Perform a single forward pass. for GCN
 
          pred = out.argmax(dim=1)  # Use the class with highest probability.
          probs = torch.nn.functional.softmax(out, dim=1)[:, 1]  # Get probabilities for the positive class

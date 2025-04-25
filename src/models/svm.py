@@ -30,10 +30,31 @@ def load_descriptors(column_file, descriptor_file):
 
 # === Preprocessing ===
 def preprocess_descriptors(df):
-    df = df.iloc[:, 4:]  # Drop molecule ID and other non-numeric columns
-    df.fillna(df.mean(), inplace=True)
+      # Affichage des valeurs manquantes
+    missing_values = df.isnull().sum()
+    print("Missing Values:\n", missing_values[missing_values > 0])
+
+    # Suppression des colonnes non nécessaires (ex: ID molécules, etc.)
+    df = df.iloc[:, 4:]
+
+    # Remplissage des NaN dans les colonnes numériques uniquement
+    numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
+    df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
+
+    # Vérification des NaN restants (dans les colonnes non numériques par ex.)
+    if df.isnull().sum().any():
+        print("Warning: Some NaN values still remain in non-numeric columns.")
+        # Option : remplacer par 0 (ou 'missing' si catégorielles)
+        df.fillna(0, inplace=True)
+
+    # Normalisation des données
     scaler = StandardScaler()
     scaled_df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
+
+    # Affichage de la matrice de corrélation
+    correlation_matrix = scaled_df.corr()
+    print("Correlation Matrix:\n", correlation_matrix)
+
     return scaled_df
 
 # === Model Training & Evaluation ===

@@ -14,7 +14,7 @@ from src.models.xgboost import run_xgboost
 from src.models.svm import run_svm
 
 
-# === CONFIGURATION ===
+# === CONFIGURATION FOR GCN-LLM & GCN===
 SUP_NAME = "Cannabinoid_CB1_receptor-7"
 SD_FILE = f"data/raw/7th_Step_DS_Ligand-Prep_Files/{SUP_NAME}.sd"
 MODEL_CONFIG_FILE = "data/raw/model_graph_params.json"
@@ -23,12 +23,12 @@ MODEL_CONFIG_FILE = "data/raw/model_graph_params.json"
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
-# === LOAD DATASET ===
+# === LOAD DATASET FOR GCN-LLM & GCN===
 supplier = Chem.SDMolSupplier(SD_FILE)
 train_dataset, test_dataset = prepare_dataloaders(supplier, SUP_NAME)
 model_params = load_model_params(MODEL_CONFIG_FILE)
 
-# === DEBUGGING DATA ===
+# === DEBUGGING DATA FOR GCN-LLM & GCN===
 for step, data in enumerate(train_dataset):
     print(f"Step {step + 1}:")
     print(f'Number of graphs in the current batch: {data.num_graphs}')
@@ -70,10 +70,11 @@ for epoch in range(1, 601):
     test_acc, f1_test, _, _ = test(test_dataset, model, device)
     print(f'Epoch: {epoch:03d}, Train Acc: {train_acc:.3f}, Test Acc: {test_acc:.3f}, Test F1: {f1_test:.3f}')
 
-# === TRADITIONAL ML MODELS ===
+# === TRADITIONAL ML MODELS  ===
 if __name__ == "__main__":
     print("=== Running SVM baseline ===")
     run_svm()
 
     print("=== Running XGBoost baseline ===")
     run_xgboost()
+
