@@ -87,14 +87,15 @@ python main.py --mode test --checkpoint path/to/model.ckpt
 
 ##📚 Citation
 
-@article{your2025gcnllm,
-  title={Combining GCN Structural Learning with LLM Chemical Knowledge for Enhanced Virtual Screening},
-  author={Your Name and Collaborators},
-  journal={Journal of Chemical Information and Modeling},
-  year={2025},
-  note={Under Review}
+@misc{berreziga2025combininggcnstructurallearning,
+      title={Combining GCN Structural Learning with LLM Chemical Knowledge for or Enhanced Virtual Screening}, 
+      author={Radia Berreziga and Mohammed Brahimi and Khairedine Kraim and Hamid Azzoune},
+      year={2025},
+      eprint={2504.17497},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2504.17497}, 
 }
-
 
 
 ---
