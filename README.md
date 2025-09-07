@@ -102,22 +102,24 @@ python main.py --mode test --checkpoint path/to/model.ckpt
 
 
 ##📦 Dependencies
-Python 3.10
+Python 3.10+
 
-RDKit 2023.09.1
+All Python packages and exact versions are listed in `requirements.txt`. To install all dependencies, run:
 
-PyTorch 2.2.0
-
-PyTorch Geometric 2.4.0
-
-Transformers 4.38
-
-scikit-learn 1.4+
-
+```bash
+pip install -r requirements.txt
 
 
 ---
+```markdown
+## 💻 Hardware Specifications
 
+- GPU: NVIDIA Tesla T4, 16 GB
+- CPU: 2 vCPUs
+- RAM: 12 GB
+- Environment: Google Colab (free/pro) or local setup
+
+---
 
 ##📬 Contact
 For questions, feedback, or collaboration proposals:
